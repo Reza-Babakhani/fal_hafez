@@ -5,4 +5,10 @@ class Fal {
   final String Interpretation;
   final String Title;
   Fal(this.Id, this.Poem, this.Interpretation, this.Title);
+
+  List<String> get PoemParts {
+    return Poem.split("\\r\\n");
+  }
+
+  
 }

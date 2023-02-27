@@ -12,7 +12,8 @@ void main() {
     child: const MyApp(),
   ));
 
-  const appId = "----";
+  const appId =
+      "mmsabppftckebnfkmopsdiihmelecnogodeoflmiibdmtktfqattljpcpncginhrnfeqor";
   TapsellPlus.instance.initialize(appId);
   TapsellPlus.instance.setGDPRConsent(true);
 }
@@ -25,6 +26,30 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  Future<void> ad() async {
+    String adId = await TapsellPlus.instance.requestStandardBannerAd(
+        "63fcf6d9b96efa3785450390", TapsellPlusBannerType.BANNER_320x50);
+
+    await TapsellPlus.instance.showStandardBannerAd(adId,
+        TapsellPlusHorizontalGravity.BOTTOM, TapsellPlusVerticalGravity.CENTER,
+        margin: const EdgeInsets.only(bottom: 1), onOpened: (map) {
+      // Ad opened
+    }, onError: (map) {
+      // Error when showing ad
+    });
+  }
+
+  bool _isInit = true;
+
+  @override
+  void didChangeDependencies() async {
+    if (_isInit) {
+      await ad();
+      _isInit = false;
+    }
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<ThemeNotifier>(builder: (context, theme, _) {

@@ -6,7 +6,7 @@ class ThemeNotifier with ChangeNotifier {
   final darkTheme = ThemeData(
     primaryColor: const Color(0xFF212121),
     fontFamily: "Vazir",
-    dividerColor: Colors.black12,
+    dividerColor: Colors.white54,
     colorScheme: ColorScheme.fromSwatch(primarySwatch: MyPalette.firstPalette)
         .copyWith(
             background: const Color(0xFF212121), brightness: Brightness.dark),
@@ -15,7 +15,7 @@ class ThemeNotifier with ChangeNotifier {
   final lightTheme = ThemeData(
     primaryColor: Colors.white,
     fontFamily: "Vazir",
-    dividerColor: Colors.white54,
+    dividerColor: Colors.black12,
     colorScheme: ColorScheme.fromSwatch(primarySwatch: MyPalette.firstPalette)
         .copyWith(
             background: const Color(0xFFE5E5E5), brightness: Brightness.light),

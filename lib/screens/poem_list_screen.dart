@@ -63,8 +63,9 @@ class PoemListItem extends StatelessWidget {
       child: ListTile(
         title: Text("غزل شماره ${fal.Id}"),
         subtitle: Text(fal.Title),
-        onTap: () {
-          Navigator.of(context).pushNamed(FalScreen.routeName, arguments: fal);
+        onTap: () async {
+          await Navigator.of(context)
+              .pushNamed(FalScreen.routeName, arguments: fal);
         },
       ),
     );
