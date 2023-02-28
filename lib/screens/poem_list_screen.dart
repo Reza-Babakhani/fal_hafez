@@ -27,17 +27,20 @@ class _PoemListScreenState extends State<PoemListScreen> {
             } else {
               return Directionality(
                 textDirection: TextDirection.rtl,
-                child: ListView.builder(
-                    itemCount: snapshot.data!.length,
-                    prototypeItem: PoemListItem(snapshot.data!.first),
-                    cacheExtent: 30,
-                    addAutomaticKeepAlives: true,
-                    addRepaintBoundaries: true,
-                    addSemanticIndexes: true,
-                    itemBuilder: (ctx, i) {
-                      Fal fal = snapshot.data![i];
-                      return PoemListItem(fal);
-                    }),
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 50),
+                  child: ListView.builder(
+                      itemCount: snapshot.data!.length,
+                      prototypeItem: PoemListItem(snapshot.data!.first),
+                      cacheExtent: 30,
+                      addAutomaticKeepAlives: true,
+                      addRepaintBoundaries: true,
+                      addSemanticIndexes: true,
+                      itemBuilder: (ctx, i) {
+                        Fal fal = snapshot.data![i];
+                        return PoemListItem(fal);
+                      }),
+                ),
               );
             }
           },

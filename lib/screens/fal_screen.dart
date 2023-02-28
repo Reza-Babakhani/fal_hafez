@@ -32,7 +32,7 @@ class _FalScreenState extends State<FalScreen> {
   void didChangeDependencies() async {
     if (_isInit) {
       _fal = ModalRoute.of(context)!.settings.arguments as Fal;
-      //await ad();
+      await ad();
 
       var f = intl.NumberFormat("000");
       try {
@@ -79,53 +79,59 @@ class _FalScreenState extends State<FalScreen> {
           width: double.infinity,
           height: double.infinity,
           padding: const EdgeInsets.only(left: 15, right: 15, bottom: 10),
-          child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Column(
-              children: [
-                ..._fal.PoemParts.map((e) => e.isNotEmpty
-                    ? Text(
-                        e,
+          child: Column(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: Column(
+                    children: [
+                      ..._fal.PoemParts.map((e) => e.isNotEmpty
+                          ? Text(
+                              e,
+                              style: const TextStyle(
+                                  fontFamily: "Nastaliq", fontSize: 34),
+                            )
+                          : Container()).toList(),
+                      Divider(
+                        color: Theme.of(context).textTheme.bodyMedium!.color,
+                        thickness: 1,
+                      ),
+                      Text(
+                        _fal.Interpretation,
                         style: const TextStyle(
-                            fontFamily: "Nastaliq", fontSize: 34),
+                          fontSize: 18,
+                        ),
+                        textAlign: TextAlign.justify,
+                      ),
+                      const SizedBox(
+                        height: 30,
                       )
-                    : Container()).toList(),
-                Divider(
-                  color: Theme.of(context).textTheme.bodyMedium!.color,
-                  thickness: 1,
-                ),
-                Text(
-                  _fal.Interpretation,
-                  style: const TextStyle(
-                    fontSize: 18,
+                    ],
                   ),
-                  textAlign: TextAlign.justify,
                 ),
-                const SizedBox(
-                  height: 30,
-                )
-              ],
-            ),
+              ),
+              Container(
+                padding: const EdgeInsets.only(bottom: 50),
+                child: Row(children: [
+                  IconButton(
+                    onPressed: () async {
+                      await player.play();
+                    },
+                    icon: const Icon(Icons.play_circle),
+                    iconSize: 50,
+                  ),
+                  IconButton(
+                    onPressed: () async {
+                      await player.pause();
+                    },
+                    icon: const Icon(Icons.pause_circle),
+                    iconSize: 50,
+                  )
+                ]),
+              ),
+            ],
           ),
-        ),
-        bottomNavigationBar: SizedBox(
-          height: 85,
-          child: Row(children: [
-            IconButton(
-              onPressed: () async {
-                await player.play();
-              },
-              icon: const Icon(Icons.play_circle),
-              iconSize: 50,
-            ),
-            IconButton(
-              onPressed: () async {
-                await player.pause();
-              },
-              icon: const Icon(Icons.pause_circle),
-              iconSize: 50,
-            )
-          ]),
         ),
       ),
     );

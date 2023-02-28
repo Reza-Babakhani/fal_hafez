@@ -19,53 +19,65 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size(double.infinity, 85),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 40),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Consumer<ThemeNotifier>(
-                builder: (context, theme, _) => IconButton(
-                  onPressed: () {
-                    if (theme.isDarkMode()) {
-                      theme.setLightMode();
-                    } else {
-                      theme.setDarkMode();
-                    }
-                  },
-                  icon: Icon(
-                      theme.isDarkMode() ? Icons.light_mode : Icons.dark_mode),
+      body: Consumer<ThemeNotifier>(
+        builder: (context, theme, _) => SafeArea(
+          child: Container(
+            padding:
+                const EdgeInsets.only(left: 15, right: 15, top: 15, bottom: 50),
+            width: double.infinity,
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: theme.isDarkMode()
+                        ? const AssetImage("assets/img/bg-dark.jpg")
+                        : const AssetImage("assets/img/bg-light.jpg"),
+                    fit: BoxFit.fitHeight)),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                PreferredSize(
+                  preferredSize: const Size(double.infinity, 85),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            shape: const CircleBorder()),
+                        onPressed: () {
+                          if (theme.isDarkMode()) {
+                            theme.setLightMode();
+                          } else {
+                            theme.setDarkMode();
+                          }
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: Icon(theme.isDarkMode()
+                              ? Icons.light_mode
+                              : Icons.dark_mode),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          ),
-        ),
-      ),
-      body: SafeArea(
-        child: Container(
-          width: double.infinity,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                  onPressed: () async {
-                    var id = Random().nextInt(495) + 1;
+                ElevatedButton(
+                    onPressed: () async {
+                      var id = Random().nextInt(495) + 1;
 
-                    FalService.GetById(id).then((fal) async {
+                      FalService.GetById(id).then((fal) async {
+                        await Navigator.of(context)
+                            .pushNamed(FalScreen.routeName, arguments: fal);
+                      });
+                    },
+                    child: const Text("نیت کردم")),
+                ElevatedButton(
+                    onPressed: () async {
                       await Navigator.of(context)
-                          .pushNamed(FalScreen.routeName, arguments: fal);
-                    });
-                  },
-                  child: const Text("نیت کردم")),
-              ElevatedButton(
-                  onPressed: () async {
-                    await Navigator.of(context)
-                        .pushNamed(PoemListScreen.routeName);
-                  },
-                  child: const Text("لیست"))
-            ],
+                          .pushNamed(PoemListScreen.routeName);
+                    },
+                    child: const Text("لیست"))
+              ],
+            ),
           ),
         ),
       ),
