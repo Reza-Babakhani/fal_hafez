@@ -56,7 +56,7 @@ class _MyAppState extends State<MyApp> {
       return MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: theme.getTheme(),
-        home: HomeScreen(),
+        home: const HomeScreen(),
         routes: {
           PoemListScreen.routeName: (context) => const PoemListScreen(),
           FalScreen.routeName: (context) => const FalScreen(),

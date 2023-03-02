@@ -1,4 +1,5 @@
 // ignore: file_names
+
 class Fal {
   final int Id;
   final String Poem;
@@ -9,6 +10,4 @@ class Fal {
   List<String> get PoemParts {
     return Poem.split("\\r\\n");
   }
-
-  
 }

@@ -15,7 +15,7 @@ class FalScreen extends StatefulWidget {
 class _FalScreenState extends State<FalScreen> {
   late Fal _fal;
   final player = AudioPlayer();
-
+  bool _isPlaying = false;
   Future<void> ad() async {
     String adId = await TapsellPlus.instance
         .requestInterstitialAd("63fcf8036f61060ce6dfc19c");
@@ -37,14 +37,39 @@ class _FalScreenState extends State<FalScreen> {
       var f = intl.NumberFormat("000");
       try {
         await player.setUrl(
-            'https://fal-hafez.s3.ir-thr-at1.arvanstorage.ir/Hafez---${f.format(_fal.Id)}.mp3');
+            'https://fal-hafez.s3.ir-thr-at1.arvanstorage.ir/Hafez---${f.format(_fal.Id)}.mp3',
+            preload: true);
       } catch (ex) {
         //sound not loaded
         //internet problem of notfound
       }
-      _isInit = false;
+      setState(() {
+        _isInit = false;
+      });
     }
+
     super.didChangeDependencies();
+  }
+
+  Future togglePlay() async {
+    if (_isPlaying) {
+      setState(() {
+        _isPlaying = !_isPlaying;
+      });
+      await player.pause();
+    } else {
+      setState(() {
+        _isPlaying = !_isPlaying;
+      });
+      await player.play();
+    }
+  }
+
+  Future stopAudio() async {
+    player.stop();
+    player.seek(Duration.zero);
+
+    _isPlaying = false;
   }
 
   @override
@@ -113,22 +138,53 @@ class _FalScreenState extends State<FalScreen> {
               ),
               Container(
                 padding: const EdgeInsets.only(bottom: 50),
-                child: Row(children: [
-                  IconButton(
-                    onPressed: () async {
-                      await player.play();
-                    },
-                    icon: const Icon(Icons.play_circle),
-                    iconSize: 50,
-                  ),
-                  IconButton(
-                    onPressed: () async {
-                      await player.pause();
-                    },
-                    icon: const Icon(Icons.pause_circle),
-                    iconSize: 50,
-                  )
-                ]),
+                child: _isInit
+                    ? const CircularProgressIndicator()
+                    : player.duration == null
+                        ? const Text("برای شنیدن صوت، به اینترنت متصل شوید.")
+                        : Row(children: [
+                            IconButton(
+                              onPressed: togglePlay,
+                              icon: _isPlaying
+                                  ? const Icon(Icons.pause_circle)
+                                  : const Icon(Icons.play_circle),
+                              iconSize: 50,
+                            ),
+                            Expanded(
+                              child: Directionality(
+                                textDirection: TextDirection.ltr,
+                                child: StreamBuilder(
+                                    initialData: const Duration(seconds: 0),
+                                    stream: player.positionStream,
+                                    builder: (ctx, snapshot) {
+                                      double currentDuration = snapshot.hasData
+                                          ? (snapshot.data as Duration)
+                                              .inMilliseconds
+                                              .toDouble()
+                                          : 0;
+                                      if (currentDuration >=
+                                          player.duration!.inMilliseconds) {
+                                        stopAudio().then((value) {
+                                          setState(() {});
+                                        });
+                                      }
+                                      return Slider(
+                                        value: currentDuration,
+                                        min: 0,
+                                        max: player.duration!.inMilliseconds
+                                            .toDouble(),
+                                        onChanged: (val) {
+                                          setState(() {
+                                            player.seek(Duration(
+                                                milliseconds: val.toInt()));
+                                          });
+                                          // Jump to the 10 second position
+                                        },
+                                      );
+                                    }),
+                              ),
+                            )
+                          ]),
               ),
             ],
           ),

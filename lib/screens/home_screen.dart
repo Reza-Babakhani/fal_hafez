@@ -61,21 +61,35 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 ElevatedButton(
-                    onPressed: () async {
-                      var id = Random().nextInt(495) + 1;
+                  onPressed: () async {
+                    var id = Random().nextInt(495) + 1;
 
-                      FalService.GetById(id).then((fal) async {
-                        await Navigator.of(context)
-                            .pushNamed(FalScreen.routeName, arguments: fal);
-                      });
-                    },
-                    child: const Text("نیت کردم")),
+                    FalService.GetById(id).then((fal) async {
+                      await Navigator.of(context)
+                          .pushNamed(FalScreen.routeName, arguments: fal);
+                    });
+                  },
+                  style: ElevatedButton.styleFrom(
+                      shape: const CircleBorder(
+                    side: BorderSide(
+                      strokeAlign: BorderSide.strokeAlignOutside,
+                      width: 2,
+                    ),
+                  )),
+                  child: const Padding(
+                    padding: EdgeInsets.all(18),
+                    child: Text(
+                      "نیت کردم",
+                      style: TextStyle(fontFamily: "Nastaliq", fontSize: 50),
+                    ),
+                  ),
+                ),
                 ElevatedButton(
                     onPressed: () async {
                       await Navigator.of(context)
                           .pushNamed(PoemListScreen.routeName);
                     },
-                    child: const Text("لیست"))
+                    child: const Text("مشاهده همه اشعار"))
               ],
             ),
           ),
