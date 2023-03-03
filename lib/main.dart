@@ -3,6 +3,7 @@ import 'package:fal_hafez/screens/home_screen.dart';
 import 'package:fal_hafez/screens/poem_list_screen.dart';
 import 'package:fal_hafez/services/theme_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:provider/provider.dart';
 import 'package:tapsell_plus/tapsell_plus.dart';
 
@@ -44,7 +45,10 @@ class _MyAppState extends State<MyApp> {
   @override
   void didChangeDependencies() async {
     if (_isInit) {
-      await ad();
+      bool result = await InternetConnectionChecker().hasConnection;
+      if (result == true) {
+        await ad();
+      }
       _isInit = false;
     }
     super.didChangeDependencies();
