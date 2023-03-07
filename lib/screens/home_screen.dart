@@ -38,8 +38,45 @@ class _HomeScreenState extends State<HomeScreen> {
                 PreferredSize(
                   preferredSize: const Size(double.infinity, 85),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            shape: const CircleBorder()),
+                        onPressed: () {
+                          showDialog(
+                              context: context,
+                              builder: (ctx) {
+                                return AlertDialog(
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: const Text("Ok"),
+                                      )
+                                    ],
+                                    content: Directionality(
+                                      textDirection: TextDirection.rtl,
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: const [
+                                          Text(
+                                              "صوت به‌کار رفته در برنامه متعلق به استاد سیدعلی موسوی گرمارودی است"),
+                                          Divider(),
+                                          Text(
+                                            "تهیه شده توسط محمدرضا باباخانی",
+                                          ),
+                                        ],
+                                      ),
+                                    ));
+                              });
+                        },
+                        child: const Padding(
+                          padding: EdgeInsets.all(8),
+                          child: Icon(Icons.info_outline),
+                        ),
+                      ),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
                             shape: const CircleBorder()),
