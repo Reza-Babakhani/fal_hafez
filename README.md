@@ -1,6 +1,6 @@
 # Fal Hafez by Reza Babakhani
 
-برنامه فال حافظ  به وسیله فلاتر
+برنامه فال حافظ به وسیله فلاتر
 
 [Download From CafeBazaar](https://cafebazaar.ir/app/ir.rezababakhani.hafez)
 
